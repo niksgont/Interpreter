@@ -1,0 +1,10 @@
+
+#Anel Salkenova
+program
+var s, b;
+func increment(a) is
+	return a + 1;
+end;
+s := {anel := 20, Salkenova := "anel"};
+output increment(b);
+end;
