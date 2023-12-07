@@ -42,6 +42,18 @@ public class CustomScanner {
         }
         return null;
     }
+    Token findTuple(){
+        int start = _position;
+        if(getCurrentChar() == '{'){
+            _position++; _column++;
+            while(getCurrentChar() != '}'){
+                _position++; _column++;
+            }
+            _position++; _column++;
+            return new Token(Tokens.tkTuple, start, _text.substring(start, _position), "tuple", _line, _column);
+        }
+        return null;
+    }
     Token findNewLine() {
         int start = _position;
         if (getCurrentChar() == '\n') {
@@ -122,12 +134,14 @@ public class CustomScanner {
         if (lexeme != null) {
             int start = _position;
             switch (lexeme) {
-                case "print":
-                    return new Token(Tokens.tkPrint, start, lexeme, "print", _line, _column);
+                case "program":
+                    return new Token(Tokens.tkProgram, start, lexeme, "program", _line, _column);
+                case "output":
+                    return new Token(Tokens.tkPrint, start, lexeme, "output", _line, _column);
                 case "var":
                     return new Token(Tokens.tkVar, start, lexeme, "var", _line, _column);
                 case "func":
-                    return new Token(Tokens.tkFunc, start, lexeme, "function", _line, _column);
+                    return new Token(Tokens.tkFunc, start, lexeme, "func", _line, _column);
                 case "return":
                     return new Token(Tokens.tkReturn, start, lexeme, "return", _line, _column);
                 case "then":
@@ -137,9 +151,9 @@ public class CustomScanner {
                 case "is":
                     return new Token(Tokens.tkIs, start, lexeme, "is", _line, _column);
                 case "false":
-                    return new Token(Tokens.tkBool, start, lexeme, "false", _line, _column );
+                    return new Token(Tokens.tkFalse, start, lexeme, "false", _line, _column );
                 case "true":
-                    return new Token(Tokens.tkBool, start, lexeme, "true", _line, _column );
+                    return new Token(Tokens.tkTrue, start, lexeme, "true", _line, _column );
                 case "if":
                     return new Token(Tokens.tkIf, start, lexeme, "if", _line, _column);
                 case "else":
@@ -152,18 +166,12 @@ public class CustomScanner {
                     return new Token(Tokens.tkLoop, start, lexeme, "loop", _line, _column);
                 case "or":
                     return new Token(Tokens.tkOr, start, lexeme, "or", _line, _column);
-                case "xor":
-                    return new Token(Tokens.tkXor, start, lexeme, "xor", _line, _column);
                 case "and":
                     return new Token(Tokens.tkAnd, start, lexeme, "and", _line, _column);
                 case "not":
                     return new Token(Tokens.tkNot, start, lexeme, "not", _line, _column);
-                case "readInt":
-                    return new Token(Tokens.tkReadInt, start, lexeme, "ReadInt", _line, _column);
-                case "readReal":
-                    return new Token(Tokens.tkReadReal, start, lexeme, "ReadReal", _line, _column);
-                case "readString":
-                    return new Token(Tokens.tkReadString, start, lexeme, "ReadString", _line, _column);
+                case "read":
+                    return new Token(Tokens.tkRead, start, lexeme, "read", _line, _column);
                 default:
                     return new Token(Tokens.tkIdentifier, start, lexeme, "<identifier>", _line,
                             _column - lexeme.length());
